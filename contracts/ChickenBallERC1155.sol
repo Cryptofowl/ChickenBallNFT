@@ -9,40 +9,39 @@ contract ChickenBall is ERC1155, Ownable {
     constructor() ERC1155("") {}
 
     address[7] Addresses;
+    uint256 currentExpiry = 1;
+    string currentUri;
+
+    struct chickenBall {
+        address owner;
+        uint32 id;
+        uint256 expiry;
+        bool rotten;
+    }
+
+    mapping(uint32 => chickenBall[]) public chickenBalls;
+
+    function arraySize() public returns (uint256) {
+        return chickenBalls.length;
+    }
     
 
     function setURI(string memory newuri) public onlyOwner {
         _setURI(newuri);
+        currentUri = newuri;
     }
 
     function updateAddresses(address[] memory array) public onlyOwner {
-        for (i=0; i=7; i++){
-            Addresses[i].push(array[i]);
+        for (uint8 i=0; i==6; i++){
+            Addresses[i] = array[i];
         }
-    }
-
-    function distribute() public {
-        if ( currentExpiry >= block.timestamp() )
-            for (i = 0; i = chickenBalls.length; i++){
-                chickenBalls[i].rotten = true;
-                }
-            for (i=0; i > chickenBalls.length + 7; i++) {
-                _mint(Addresses[i], i, "");
-                    chickenBalls.push[
-                        address: Addresses[i];
-                        id: i + chickenBalls.length;
-                        expiry: block.timestamp + 30 days;
-                        rotten: false;
-                    ]
-            }
-
     }
 
 
     function uri(uint256 _tokenid) override public pure returns (string memory) {
         return string(
             abi.encodePacked(
-                newuri,
+                currentUri,
                 Strings.toString(_tokenid),".json"
             )
         );
